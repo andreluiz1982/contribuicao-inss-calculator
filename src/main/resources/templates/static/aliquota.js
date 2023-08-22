@@ -1,5 +1,3 @@
-console.log("teste aliquota")
-
 let valorMinimo = document.getElementById("valorMinimo");
 let valorMaximo = document.getElementById("valorMaximo");
 let aliquota = document.getElementById("aliquota");
@@ -22,8 +20,13 @@ function listener(html) {
 function addFaixasHtml(keyCode){
 	
 	if (keyCode === "Enter") {
-		form.appendChild(faixaAliquota.cloneNode(true))
-
+        let faixa =  form.appendChild(faixaAliquota.cloneNode(true))
+        let inputs = faixa.getElementsByTagName('input');
+          for (index = 0; index < inputs.length; ++index) {
+          inputs[index].id = "faixaAliquota"+index;
+            	    if(inputs[index].type =="text")
+                    inputs[index].value = '';
+                }
 		listener( form.lastElementChild.lastElementChild)
 
 
@@ -33,12 +36,22 @@ function addFaixasHtml(keyCode){
 function enviar() {
 	
 	let faixas = [];
-	let f = form.childNodes;
+	let f = document.getElementsByClassName("faixa m-3 p-3 border border-info rounded");
+	console.log('size  '+ f.length)
+	for(let i in f){
+	console.log('i ' + i)
+	if(i ==1 ){
+	    let min = f[i].querySelector('#valorMinimo').value;
+	    let max = f[i].querySelector('#valorMaximo').value;
+	    let aliq = f[i].querySelector('#aliquota').value;
 
-	for(i in f){
-	console.log(f[i].value)
-	faixas += {
-//	valorMinimo: valorMinimo.value, valorMaximo: valorMaximo.value, aliquota: aliquota.value
+	    console.log(min + ' '+ max + ' ' + aliq)
+	    faixas += {
+	        'valorMinimo': min,
+	        'valorMaximo':max,
+	        'aliquota': aliq
+	    }
+	    console.log(faixas)
 	}
 	}
 	let json = JSON.stringify({
