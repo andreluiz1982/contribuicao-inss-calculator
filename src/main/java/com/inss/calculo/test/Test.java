@@ -31,21 +31,21 @@ public class Test implements CommandLineRunner {
 		
 
 		
-		Aliquota al1 = new Aliquota(null, YearMonth.of(2023, Month.MAY), Arrays.asList(
+		Aliquota al1 = new Aliquota( YearMonth.of(2023, Month.MAY), Arrays.asList(
 				 new FaixaAliquota(BigDecimal.ZERO, new BigDecimal("1320.00"), new BigDecimal("7.5")),
 				 new FaixaAliquota(new BigDecimal("1320.01"), new BigDecimal("2571.29"), new BigDecimal("9.0")),
 				 new FaixaAliquota(new BigDecimal("2571.3"), new BigDecimal("3856.94"), new BigDecimal("12.0")),
 				 new FaixaAliquota(new BigDecimal("3856.95"), new BigDecimal("7507.49"), new BigDecimal("14.0"))
 				));
 		
-		Aliquota al2 = new Aliquota(null, YearMonth.of(2023, Month.JANUARY), Arrays.asList(
+		Aliquota al2 = new Aliquota( YearMonth.of(2023, Month.JANUARY), Arrays.asList(
 				 new FaixaAliquota(BigDecimal.ZERO, new BigDecimal("1302.00"), new BigDecimal("7.5")),
 				 new FaixaAliquota(new BigDecimal("1302.01"), new BigDecimal("2571.29"), new BigDecimal("9.0")),
 				 new FaixaAliquota(new BigDecimal("2571.30"), new BigDecimal("3856.94"), new BigDecimal("12.0")),
 				 new FaixaAliquota(new BigDecimal("3856.95"), new BigDecimal("7507.49"), new BigDecimal("14.0"))
 				));
 		
-		Aliquota al3 = new Aliquota(null, YearMonth.of(2022, Month.JANUARY), Arrays.asList(
+		Aliquota al3 = new Aliquota( YearMonth.of(2022, Month.JANUARY), Arrays.asList(
 				 new FaixaAliquota(BigDecimal.ZERO, new BigDecimal("1212.00"), new BigDecimal("7.5")),
 				 new FaixaAliquota(new BigDecimal("1212.01"), new BigDecimal("2427.35"), new BigDecimal("9.0")),
 				 new FaixaAliquota(new BigDecimal("2427.36"), new BigDecimal("3641.03"), new BigDecimal("12.0")),

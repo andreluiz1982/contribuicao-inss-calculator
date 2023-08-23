@@ -23,9 +23,9 @@ public class TemplateController {
 	}
 	
 	
-	@GetMapping("/page/salario-contribuicao")
+	@GetMapping("/page/salarios-contribuicao")
 	public String getSalarioContribuicao() {
-		return "static/salario-contribuicao";
+		return "static/salarios";
 	}
 	
 	@GetMapping("/page/aliquota")
@@ -36,5 +36,10 @@ public class TemplateController {
 	@GetMapping("/static/aliquota.js")
 	public String getAliquotaJs() {
 		return "static/aliquota.js";
+	}
+
+	@GetMapping("/static/salarios.js")
+	public String getSalariosJs() {
+		return "static/salarios.js";
 	}
 }
