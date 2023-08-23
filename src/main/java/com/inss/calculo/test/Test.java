@@ -15,6 +15,7 @@ import com.inss.calculo.model.Contribuinte;
 import com.inss.calculo.model.FaixaAliquota;
 import com.inss.calculo.model.SalarioBaseContribuicao;
 import com.inss.calculo.repository.AliquotaRepository;
+import com.inss.calculo.repository.ContribuinteRepository;
 import com.inss.calculo.service.ContribuicaoService;
 
 @Component
@@ -25,6 +26,9 @@ public class Test implements CommandLineRunner {
 	
 	@Autowired
 	private ContribuicaoService contribuicaoService;
+	
+	@Autowired
+	private ContribuinteRepository contribuinteRepository;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -55,11 +59,14 @@ public class Test implements CommandLineRunner {
 		aliquotaRepository.saveAll(Arrays.asList(al1, al2, al3));
 		
 		Contribuinte c1 = new Contribuinte("Jonh Doe", "12345678901", null);
+		Contribuinte c2 = new Contribuinte("Jonh Silver", "10987654321", null);
+
 		SalarioBaseContribuicao s1 = new SalarioBaseContribuicao(YearMonth.of(2023, 1), c1, Arrays.asList(new BigDecimal("2000.0")));
 //		s1.setContribuinte(c1);
 	
 		
 		ContribuicaoDTO dto = contribuicaoService.calculaContribuicao(s1);
+		contribuinteRepository.saveAll(Arrays.asList(c1,c2));
 		System.err.println(dto);
 	}
 

@@ -1,4 +1,3 @@
-let contribuintes = document.getElementById("contribuintes");
 let valorMinimo = document.getElementById("valorMinimo");
 let valorMaximo = document.getElementById("valorMaximo");
 let aliquota = document.getElementById("aliquota");
@@ -6,8 +5,8 @@ let anoMes = document.getElementById("anoMes");
 let faixaAliquota = document.getElementById("faixaAliquota");
 let form = document.getElementById("form");
 let response = document.getElementById("response");
-loadContribuintes();
-let allContribuintes = [];
+loadAliquotas();
+
 function enviar() {
 	
 	let faixas = [];
@@ -49,21 +48,39 @@ function enviar() {
 
 }
 
-function loadContribuintes(){
-    let htmlResp =  '';
+function loadAliquotas(){
+    let htmlResp =  `<table class='table'><thead><tr><th scope='col'>Ano-Mês</th><th scope='col'>Mín.</th>
+                        <th scope='col'>Máx</th><th scope='col'>Aliq.</th></tr></thead><tbody>`;
     var xhr = new XMLHttpRequest();
-	xhr.open("GET", "/contribuinte/all", true)
+	xhr.open("GET", "/aliquota/all", true)
 	xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 	xhr.onload = function() {
 		let resp = JSON.parse(this.response);
 		for(let i in resp){
-			console.log(resp[i])
-			allContribuintes.push(resp[i]);
-			htmlResp +=  `<button class='btn btn-lg btn-warning m-1'>${resp[i].nomeCompleto}</button>`;
-		
+		console.log(resp[i])
+		    let anoMes = resp[i].anoMes;
+		    let fx =  resp[i].faixasAliquotas;
+	    	let cols = "'"+(fx.length+1).toString()+"'";
+		    console.log(cols)
+            htmlResp += `<tr>
+                             <td class='align-middle' rowspan=${cols}>${anoMes}</td>
+                          </tr>`;
+        for(let f in fx){
+            htmlResp += `
+                <tr>
+                    <td class="align-middle">${fx[f].valorMinimo}</td>
+                    <td class="align-middle">${fx[f].valorMaximo}</td>
+                    <td class="align-middle">${fx[f].aliquota}</td>
+                </tr>
 
-		};
-	contribuintes.innerHTML = htmlResp;
-	}
+            `;
+        }
+
+
+		}
+		htmlResp += `</tbody></table>`;
+		response.innerHTML = htmlResp;
+	};
 	xhr.send();
+
 }
