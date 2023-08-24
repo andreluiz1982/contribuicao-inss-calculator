@@ -5,6 +5,7 @@ import java.time.Month;
 import java.time.YearMonth;
 import java.util.Arrays;
 
+import com.inss.calculo.repository.SalarioBaseContribuicaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -29,7 +30,9 @@ public class Test implements CommandLineRunner {
 	
 	@Autowired
 	private ContribuinteRepository contribuinteRepository;
-	
+
+	@Autowired
+	private SalarioBaseContribuicaoRepository salarioBaseContribuicaoRepository;
 	@Override
 	public void run(String... args) throws Exception {
 		
@@ -62,8 +65,15 @@ public class Test implements CommandLineRunner {
 		Contribuinte c2 = new Contribuinte("Jonh Silver", "10987654321", null);
 
 		SalarioBaseContribuicao s1 = new SalarioBaseContribuicao(YearMonth.of(2023, 1), c1, Arrays.asList(new BigDecimal("2000.0")));
-//		s1.setContribuinte(c1);
-	
+		SalarioBaseContribuicao s2 = new SalarioBaseContribuicao(YearMonth.of(2023, 2), c1, Arrays.asList(new BigDecimal("1900.0")));
+		SalarioBaseContribuicao s3 = new SalarioBaseContribuicao(YearMonth.of(2023, 3), c1, Arrays.asList(new BigDecimal("2010.0")));
+		SalarioBaseContribuicao s4 = new SalarioBaseContribuicao(YearMonth.of(2023, 4), c1, Arrays.asList(new BigDecimal("2020.0")));
+		SalarioBaseContribuicao s5 = new SalarioBaseContribuicao(YearMonth.of(2023, 5), c1, Arrays.asList(new BigDecimal("2030.0")));
+		SalarioBaseContribuicao s6 = new SalarioBaseContribuicao(YearMonth.of(2023, 6), c1, Arrays.asList(new BigDecimal("2040.0")));
+
+
+
+		salarioBaseContribuicaoRepository.saveAll(Arrays.asList(s1,s2,s3,s4,s5,s6));
 		
 		ContribuicaoDTO dto = contribuicaoService.calculaContribuicao(s1);
 		contribuinteRepository.saveAll(Arrays.asList(c1,c2));

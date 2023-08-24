@@ -49,6 +49,29 @@ function enviar() {
 
 }
 
+function loadDataContribuinte(nome)  {
+
+
+    let john = allContribuintes.find((obj) => obj.nomeCompleto == nome);
+    let resp = `<table class='table'><thead><tr><th>Ano-Mês</th><th>Salários Contribuição</th></tr></thead><tbody>`;
+    john.salariosContribuicao.forEach((sl) => {
+        let compIncidencia = '';
+
+        sl.componentesIncidencia.forEach((comp) => {
+        compIncidencia += comp + " ";
+    });
+        resp += `<tr>
+                    <td class="align-middle">${sl.anoMes}</td>
+                    <td class="align-middle">${compIncidencia}</td>
+                 </tr>
+        `;
+    });
+    resp += `</tbody></table>`
+    response.innerHTML = resp;
+
+
+};
+
 function loadContribuintes(){
     let htmlResp =  '';
     var xhr = new XMLHttpRequest();
@@ -59,7 +82,8 @@ function loadContribuintes(){
 		for(let i in resp){
 			console.log(resp[i])
 			allContribuintes.push(resp[i]);
-			htmlResp +=  `<button class='btn btn-lg btn-warning m-1'>${resp[i].nomeCompleto}</button>`;
+			htmlResp +=  `<button class='btn btn-lg btn-warning m-1'
+			onclick='loadDataContribuinte("${resp[i].nomeCompleto}")'>${resp[i].nomeCompleto}</button>`;
 		
 
 		};
