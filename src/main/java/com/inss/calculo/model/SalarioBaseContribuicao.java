@@ -28,6 +28,8 @@ public class SalarioBaseContribuicao {
 	@Column(unique = true)
 	private YearMonth anoMes;
 
+	private String descricao;
+
 	@JsonIgnore
 	@ManyToOne (optional = false, cascade = CascadeType.PERSIST)
 	private Contribuinte contribuinte;
@@ -42,5 +44,10 @@ public class SalarioBaseContribuicao {
 		this.componentesIncidencia = componentesIncidencia;
 	}
 
-	
+	public SalarioBaseContribuicao(YearMonth anoMes, String descricao, Contribuinte contribuinte, List<BigDecimal> componentesIncidencia) {
+		this.anoMes = anoMes;
+		this.descricao = descricao;
+		this.contribuinte = contribuinte;
+		this.componentesIncidencia = componentesIncidencia;
+	}
 }

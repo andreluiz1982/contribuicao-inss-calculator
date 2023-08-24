@@ -6,7 +6,11 @@ let anoMes = document.getElementById("anoMes");
 let faixaAliquota = document.getElementById("faixaAliquota");
 let form = document.getElementById("form");
 let response = document.getElementById("response");
+let componentes = document.getElementsByClassName("componentes");
+let componente = document.getElementById("componente");
+
 loadContribuintes();
+addComponentes();
 let allContribuintes = [];
 function enviar() {
 	
@@ -49,6 +53,21 @@ function enviar() {
 
 }
 
+function addComponentes() {
+    if(event.key === 'Enter') {
+
+    var div = document.createElement('div');
+    div.setAttribute('class', 'componentes m-1 border border-secondary rounded');
+    div.innerHTML = `
+       <label class="form-label">Componente salário - INSS</label>
+       				<input class="inputSalario form-control" onkeydown='addComponentes(this)' accept="text" required="true"  placeholder="Digite o valor" id="componenteSalario" >
+       				<label class="form-label">Descrição (opcional) - Enter para outro componente </label>
+       				<input class="inputDescricao form-control" onkeydown='addComponentes(this)' accept="text" required="true" placeholder="Descrição (opcional) Ex. Horas Extraordinárias" id="descricao">
+    `;
+    form.appendChild(div);
+    }
+};
+
 function loadDataContribuinte(nome)  {
 
 
@@ -71,7 +90,14 @@ function loadDataContribuinte(nome)  {
 
 
 };
+function limpar(){
+console.log('limpar')
+    let inputs = document.getElementsByTagName('input');
+    inputs.forEach((p) => {
+        p.innerHTML = '';
+    })
 
+}
 function loadContribuintes(){
     let htmlResp =  '';
     var xhr = new XMLHttpRequest();
