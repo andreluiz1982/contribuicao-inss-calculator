@@ -40,6 +40,12 @@ public class Contribuinte {
 		this.nomeCompleto = nomeCompleto;
 		this.cpf = cpf;
 	}
+
+	public Contribuinte(Long id) {
+		super();
+		this.id = id;
+	}
+	
 	
 	
 	

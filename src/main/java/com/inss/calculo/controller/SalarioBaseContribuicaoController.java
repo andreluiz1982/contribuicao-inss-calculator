@@ -25,7 +25,7 @@ public class SalarioBaseContribuicaoController {
 	
 	@PostMapping
 	public SalarioBaseContribuicao insertAliquota(@RequestBody SalarioBaseContribuicao obj  ) {
-		
+		System.err.println(obj);
 		return contribuicaoService.insertSalarioBaseContribuicao(obj);
 	}
 	@PutMapping("{id}")

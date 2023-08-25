@@ -8,44 +8,50 @@ let form = document.getElementById("form");
 let response = document.getElementById("response");
 let componentes = document.getElementsByClassName("componentes");
 let componente = document.getElementById("componente");
+let allContribuintes = [];
+let contribuinteSelecionado = {};
 
 loadContribuintes();
 addComponentes();
-let allContribuintes = [];
+
+
 function enviar() {
 	
-	let faixas = [];
-	for(let i = 1; i <= 4; i++){
-	    let f = document.getElementById('faixaAliquota'+i);
+	let comp = document.querySelectorAll('#componente') //document.getElementsByClassName("componentes");
+	let componentesSalario = [];
+	
+	for(let i = 0 ; i <  comp.length; i++){
+		let compHtml = comp.item(i);
+		let descricao = compHtml.getElementsByClassName("inputDescricao").namedItem('descricao').value;
+		let salario = compHtml.getElementsByClassName("inputSalario").namedItem('componenteSalario').value;
+	
+		let componente = {
+			'descricao': descricao,
+			'valorComponente': salario
+		}
+		componentesSalario.push(componente);
 
-	    let min = document.getElementById('valorMinimo'+i).value;
-	    let max = document.getElementById('valorMaximo'+i).value;
-	    let aliq = document.getElementById('aliquota'+i).value;
-
-	    if(min != '' && max != '' && aliq != ''){
-
-	    faixas.push( {
-	        'valorMinimo': min,
-	        'valorMaximo':max,
-	        'aliquota': aliq
-	    });
-	    }
-
-
-	}
-
+		}
+	console.log(componentesSalario)
 
 	let json = JSON.stringify({
-		anoMes: anoMes.value, faixasAliquotas: faixas
+		anoMes: anoMes.value, componentesIncidencia: componentesSalario, 
+			contribuinte: {id: contribuinteSelecionado.id,
+							nomeCompleto: contribuinteSelecionado.nomeCompleto,
+							cpf: contribuinteSelecionado.cpf
+						
+						}
 	});
+	
+	console.log(contribuinteSelecionado)
 	console.log(JSON.parse(json))
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", "/aliquota", true)
+	xhr.open("POST", "/salario-base", true)
 	xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 	xhr.onload = function() {
 		let resp = JSON.parse(this.response);
-		console.log(JSON.parse(this.response).nomeCompleto);
-		window.alert(`Aliquotas do mes ${resp.anoMes} salva com sucesso.`)
+		console.log(JSON.parse(this.response));
+		window.alert(`salario ${resp} salvo com sucesso.`)
 	    location.reload();
 	};
 	xhr.send(json);
@@ -57,9 +63,9 @@ function addComponentes() {
     if(event.key === 'Enter') {
 
     var div = document.createElement('div');
-    div.setAttribute('class', 'componentes m-1 border border-secondary rounded');
+    div.setAttribute('class', 'componentes m-1 border border-info rounded');
     div.innerHTML = `
-       <label class="form-label">Componente salário - INSS</label>
+       				<label class="form-label">Componente salário - INSS</label>
        				<input class="inputSalario form-control" onkeydown='addComponentes(this)' accept="text" required="true"  placeholder="Digite o valor" id="componenteSalario" >
        				<label class="form-label">Descrição (opcional) - Enter para outro componente </label>
        				<input class="inputDescricao form-control" onkeydown='addComponentes(this)' accept="text" required="true" placeholder="Descrição (opcional) Ex. Horas Extraordinárias" id="descricao">
@@ -86,8 +92,9 @@ function loadDataContribuinte(nome)  {
         `;
     });
     resp += `</tbody></table>`
+    contribuinteSelecionado = john;
     response.innerHTML = resp;
-
+	
 
 };
 function limpar(){
@@ -105,8 +112,11 @@ function loadContribuintes(){
 	xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 	xhr.onload = function() {
 		let resp = JSON.parse(this.response);
+		
+	//	console.log(resp)
+
 		for(let i in resp){
-			console.log(resp[i])
+			//console.log(resp[i])
 			allContribuintes.push(resp[i]);
 			htmlResp +=  `<button class='btn btn-lg btn-warning m-1'
 			onclick='loadDataContribuinte("${resp[i].nomeCompleto}")'>${resp[i].nomeCompleto}</button>`;

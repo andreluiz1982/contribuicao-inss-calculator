@@ -41,6 +41,7 @@ public class ContribuicaoService {
 	private ContribuicaoDTO calculaValorPorFaixa(SalarioBaseContribuicao salario, Aliquota al, List<FaixaAliquota> faixas) {
 		Collections.sort(faixas);
 		BigDecimal sal = salario.getComponentesIncidencia().stream()
+				.map(b -> b.getValorComponente())
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
 		
 		

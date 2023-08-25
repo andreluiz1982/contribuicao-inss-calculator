@@ -14,20 +14,23 @@
 	<nav class="d-flex justify-content-around p-3 mb-2 bg-light text-dark">
 		<a class="btn btn-lg btn-primary" href="/">Home </a>
 		<a class="btn btn-lg btn-primary" href="/page/contribuinte">Contribuinte </a>
+		<a class="btn btn-lg btn-primary"  href="/page/salarios-contribuicao">Salários de Contribuição </a>
 		<a class="btn btn-lg btn-primary" href="/page/aliquota"> Aliquotas</a>
 	</nav>
 
 <div class="d-flex flex-row">
 	
-	<div class="m-3 col-4 border border-secondary rounded d-flex flex-column" id="contribuintes">
+	<div class="m-2 col-4 border border-secondary rounded d-flex flex-column" id="contribuintes">
 		</div>
 
-	<div class="mb-3 col-4 border border-secondary rounded">
+	<div class="m-2 col-4 border border-secondary rounded">
+		
 		<div id="form" class="form m-3 row">
 
 			<label class="form-label">Ano-Mês</label>
 			<input class="form-control" accept="text" required="true"  placeholder="Ex. 2015-02" id="anoMes">
-			<div class="componentes m-1 border border-secondary rounded" id="componente">
+			
+			<div class="componentes m-1 mt-2 border border-info rounded" id="componente">
 
 				<label class="form-label">Componente salário - INSS</label>
 				<input class="inputSalario form-control" onkeydown='addComponentes(this)' accept="text" required="true"  placeholder="Digite o valor" id="componenteSalario" >
@@ -43,7 +46,7 @@
 
 	</div>
 		
-		<div class="response m-3 col-4 border border-secondary rounded" id="response">
+		<div class="response m-2 col-4 border border-secondary rounded" id="response">
 		</div>
 
 </div>
