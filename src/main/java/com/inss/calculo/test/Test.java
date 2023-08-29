@@ -72,7 +72,13 @@ public class Test implements CommandLineRunner {
 		SalarioBaseContribuicao s4 = new SalarioBaseContribuicao(YearMonth.of(2023, 4), c1,
 				Arrays.asList(new ComponenteIncidencia("teste3", new BigDecimal("1903.0"))));
 		SalarioBaseContribuicao s5 = new SalarioBaseContribuicao(YearMonth.of(2023, 5), c1,
-				Arrays.asList(new ComponenteIncidencia("teste4", new BigDecimal("1910.0"))));
+				Arrays.asList(
+						new ComponenteIncidencia("salario base", new BigDecimal("1910.0")),
+						new ComponenteIncidencia("1/3 ferias", new BigDecimal("1910.0")),
+						new ComponenteIncidencia("13", new BigDecimal("1910.0")),
+						new ComponenteIncidencia("insalubridade", new BigDecimal("1910.0"))
+
+				));
 		SalarioBaseContribuicao s6 = new SalarioBaseContribuicao(YearMonth.of(2023, 6), c1,
 				Arrays.asList(new ComponenteIncidencia("teste5", new BigDecimal("1913.0"))));
 

@@ -36,14 +36,14 @@ function enviar() {
 
 	let json = JSON.stringify({
 		anoMes: anoMes.value, componentesIncidencia: componentesSalario, 
-			contribuinte: {id: contribuinteSelecionado.id,
-							nomeCompleto: contribuinteSelecionado.nomeCompleto,
-							cpf: contribuinteSelecionado.cpf
+			contribuinte: {'id': contribuinteSelecionado.id,
+							'nomeCompleto': contribuinteSelecionado.nomeCompleto,
+							'cpf': contribuinteSelecionado.cpf
 						
 						}
 	});
 	
-	console.log(contribuinteSelecionado)
+	console.log(contribuinteSelecionado.id)
 	console.log(JSON.parse(json))
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", "/salario-base", true)
@@ -52,7 +52,7 @@ function enviar() {
 		let resp = JSON.parse(this.response);
 		console.log(JSON.parse(this.response));
 		window.alert(`salario ${resp} salvo com sucesso.`)
-	    location.reload();
+	    //location.reload();
 	};
 	xhr.send(json);
 
@@ -78,25 +78,53 @@ function loadDataContribuinte(nome)  {
 
 
     let john = allContribuintes.find((obj) => obj.nomeCompleto == nome);
-    let resp = `<table class='table'><thead><tr><th>Ano-Mês</th><th>Salários Contribuição</th></tr></thead><tbody>`;
-    john.salariosContribuicao.forEach((sl) => {
-        let compIncidencia = '';
+   let table = document.createElement('table');
+   table.setAttribute('class', 'table');
+   let thead = document.createElement('thead');
+   let tr = document.createElement('tr');
+   let th1 = document.createElement('th');
+   let th2 = document.createElement('th');
 
+   th1.innerHTML = 'Ano-Mês';
+   th2.innerHTML = 'Salários Contribuição';
+
+   tr.appendChild(th1);
+   tr.appendChild(th2);
+   thead.appendChild(tr);
+   table.appendChild(thead);
+
+   let tbody = document.createElement('tbody');
+
+    john.salariosContribuicao.forEach((sl) => {
+     let trBody = document.createElement('tr');
+     let td = document.createElement('td');
+     td.innerHTML = sl.anoMes;
+        trBody.appendChild(td);
+        let td2 = document.createElement('td');
+        let ol = document.createElement('ol');
         sl.componentesIncidencia.forEach((comp) => {
-        compIncidencia += comp + " ";
+            let li = document.createElement('li');
+            li.innerHTML = comp.descricao +" valor: R$" + comp.valorComponente;
+            ol.appendChild(li);
+        });
+
+            td2.appendChild(ol);
+            trBody.appendChild(td2);
+            trBody.onclick = editSalario(sl);
+            tbody.appendChild(trBody);
     });
-        resp += `<tr>
-                    <td class="align-middle">${sl.anoMes}</td>
-                    <td class="align-middle">${compIncidencia}</td>
-                 </tr>
-        `;
-    });
-    resp += `</tbody></table>`
-    contribuinteSelecionado = john;
-    response.innerHTML = resp;
+  contribuinteSelecionado = john;
+  table.appendChild(tbody);
+  response.appendChild(table);
 	
 
 };
+
+function editSalario(sal){
+    console.log(sal.anoMes)
+
+}
+
 function limpar(){
 console.log('limpar')
     let inputs = document.getElementsByTagName('input');
