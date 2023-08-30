@@ -2,15 +2,18 @@ package com.inss.calculo.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 @Data
@@ -20,11 +23,13 @@ public class Contribuinte {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+	@NotBlank(message = "Nome não pode estar em branco")
 	private String nomeCompleto;
-		
+	@NotBlank(message = "CPF não pode estar em branco")
+	@CPF(message = "CPF deve ser válido")
 	private String cpf;
-	
+
+	@JsonIgnoreProperties({"contribuinte"})
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "contribuinte" )
 	private List<SalarioBaseContribuicao> salariosContribuicao;
 

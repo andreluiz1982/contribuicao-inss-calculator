@@ -2,8 +2,10 @@ package com.inss.calculo.service;
 
 import java.util.List;
 
+import com.inss.calculo.service.exceptions.DuplicatedFieldException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.inss.calculo.model.SalarioBaseContribuicao;
@@ -16,8 +18,13 @@ public class SalarioContribuicaoService {
 	private SalarioBaseContribuicaoRepository contribuicaoRepository;
 
 	public SalarioBaseContribuicao insertSalarioBaseContribuicao(SalarioBaseContribuicao obj) {
-
-		return contribuicaoRepository.save(obj);
+		try {
+			return contribuicaoRepository.save(obj);
+		} catch (DataIntegrityViolationException e) {
+			throw new DuplicatedFieldException(String.format("Salário de contribuição para o mês %s já existe, " +
+							"faça uma atualização ou exclua.",
+					obj.getAnoMes().toString()));
+		}
 	}
 
 	public void deleteSalarioBaseContribuicao(Long id) {

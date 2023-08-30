@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,15 +27,16 @@ public class SalarioBaseContribuicao {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+	@NotNull(message = "O ano-mês é obrigatório no formato yyyy-dd. Ex, 2015-08")
 	@Column(unique = true)
 	private YearMonth anoMes;
-
-	@JsonIgnore
+	@NotNull(message = "Selecione o contribuinte deve ser indicado")
+	@JsonIgnoreProperties({"salariosContribuicao"})
 	@ManyToOne (optional = false)
 	private Contribuinte contribuinte;
 	
 	@OneToMany(cascade = CascadeType.ALL )
+	@NotNull(message = "Deve haver pelo menos um componente")
 	private List<ComponenteIncidencia> componentesIncidencia = new ArrayList<>();
 
 	public SalarioBaseContribuicao(YearMonth anoMes, Contribuinte contribuinte,

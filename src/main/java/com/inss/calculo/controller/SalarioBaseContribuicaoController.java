@@ -2,6 +2,7 @@ package com.inss.calculo.controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,13 +25,13 @@ public class SalarioBaseContribuicaoController {
 	private SalarioContribuicaoService contribuicaoService;
 	
 	@PostMapping
-	public SalarioBaseContribuicao insertAliquota(@RequestBody SalarioBaseContribuicao obj  ) {
+	public SalarioBaseContribuicao insertAliquota(@RequestBody @Valid SalarioBaseContribuicao obj  ) {
 		System.err.println(obj);
 		return contribuicaoService.insertSalarioBaseContribuicao(obj);
 	}
 	@PutMapping("{id}")
 	public SalarioBaseContribuicao updateFaixaAliquota(@RequestParam(name = "id") Long id,
-											@RequestBody SalarioBaseContribuicao obj  ) {
+											@RequestBody @Valid  SalarioBaseContribuicao obj  ) {
 		
 		return contribuicaoService.updateSalarioBaseContribuicao(obj, id);
 	}

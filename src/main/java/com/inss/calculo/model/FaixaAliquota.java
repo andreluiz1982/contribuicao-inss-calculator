@@ -6,7 +6,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,11 +23,14 @@ public class FaixaAliquota implements Comparable<FaixaAliquota>{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@NotNull
+	@NotNull(message = "Valor Mínimo não pode ser nulo")
+	@PositiveOrZero(message = "Valor mínimo deve ser zero ou valor positivo")
 	private BigDecimal valorMinimo;
-	@NotNull
+	@NotNull(message = "Valor Máximo não pode ser nulo")
+	@Positive(message = "Valor Máximo deve ser maior que zero")
 	private BigDecimal valorMaximo;
-	@NotNull
+	@NotNull(message = "Alíquota não pode ser nula")
+	@PositiveOrZero(message = "Aliquota deve ser zero ou valor positivo")
 	private BigDecimal aliquota;
 	
 	

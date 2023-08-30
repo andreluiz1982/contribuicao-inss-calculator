@@ -23,7 +23,7 @@ public class ComponenteIncidencia {
 	
 	private String descricao;
 	
-	@NotNull
+	@NotNull(message = "O valor não pode ser nulo")
 	private BigDecimal valorComponente;
 
 	public ComponenteIncidencia(String descricao, @NotNull BigDecimal valorComponente) {
