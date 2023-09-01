@@ -11,9 +11,36 @@ let componente = document.getElementById("componente");
 let allContribuintes = [];
 let contribuinteSelecionado = {};
 
-loadContribuintes();
-addComponentes();
 
+addListeners();
+
+
+
+loadContribuintes();
+
+
+
+function addListeners() {
+	let inputDescricao = document.getElementsByClassName("inputDescricao form-control");
+	let adicionarOutro = document.getElementsByClassName("adicionarOutro btn btn-lg btn-light mt-1");
+    
+    
+    for (let i = 0; i < adicionarOutro.length; i++) {
+
+        adicionarOutro.item(i).addEventListener("click", addComponentes());
+    }
+    for (let i = 0; i < inputDescricao.length; i++) {
+        inputDescricao.item(i).addEventListener("keydown", (e) => {
+            if (e.key === 'Enter') {
+
+                console.log("key");
+                console.log(inputDescricao.length);
+                addComponentes();
+            }
+
+        });
+    }
+}
 
 function enviar() {
 	
@@ -59,19 +86,28 @@ function enviar() {
 
 }
 
+
+
 function addComponentes() {
-    if(event.key === 'Enter') {
 
     var div = document.createElement('div');
     div.setAttribute('class', 'componentes m-1 border border-info rounded');
     div.innerHTML = `
        				<label class="form-label">Componente salário - INSS</label>
-       				<input class="inputSalario form-control" onkeydown='addComponentes(this)' accept="text" required="true"  placeholder="Digite o valor" id="componenteSalario" >
+       				<input class="inputSalario form-control"  accept="text" required="true"  placeholder="Digite o valor" id="componenteSalario" >
        				<label class="form-label">Descrição (opcional) - Enter para outro componente </label>
-       				<input class="inputDescricao form-control" onkeydown='addComponentes(this)' accept="text" required="true" placeholder="Descrição (opcional) Ex. Horas Extraordinárias" id="descricao">
+       				<input class="inputDescricao form-control"  accept="text" required="true" placeholder="Descrição (opcional) Ex. Horas Extraordinárias" id="descricao">
+       				<button class="adicionarOutro btn btn-lg btn-light mt-1">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+							fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+  					<path
+								d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+  					<path
+								d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+					</svg>Clique para adicionar outro item</button>
     `;
+    
     form.appendChild(div);
-    }
 };
 
 function loadDataContribuinte(nome)  {
