@@ -15,7 +15,7 @@ public class TemplateController {
 	
 	@GetMapping("/page/contribuinte")
 	public String getContribuinte() {
-		return "static/contribuinte.html";
+		return "contribuinte.html";
 	}
 	@GetMapping("/static/contribuinte.js")
 	public String getContribuinteJs() {
@@ -25,21 +25,21 @@ public class TemplateController {
 	
 	@GetMapping("/page/salarios-contribuicao")
 	public String getSalarioContribuicao() {
-		return "static/salarios";
+		return "salarios";
 	}
 	
 	@GetMapping("/page/aliquota")
 	public String getAliquota() {
-		return "static/aliquota";
+		return "aliquota";
 	}
 	
-	@GetMapping("/static/aliquota.js")
+	@GetMapping("aliquota.js")
 	public String getAliquotaJs() {
-		return "static/aliquota.js";
+		return "/static/aliquota.js";
 	}
 
 	@GetMapping("/static/salarios.js")
 	public String getSalariosJs() {
-		return "static/salarios.js";
+		return "/static/salarios.js";
 	}
 }

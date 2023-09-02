@@ -10,7 +10,7 @@ let componentes = document.getElementsByClassName("componentes");
 let componente = document.getElementById("componente");
 let allContribuintes = [];
 let contribuinteSelecionado = {};
-
+console.log("tste")
 
 addListeners();
 

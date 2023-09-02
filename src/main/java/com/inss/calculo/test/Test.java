@@ -58,8 +58,8 @@ public class Test implements CommandLineRunner {
 
 		aliquotaRepository.saveAll(Arrays.asList(al1, al2, al3));
 
-		Contribuinte c1 = new Contribuinte("Jonh Doe", "12345678901", null);
-		Contribuinte c2 = new Contribuinte("Jonh Silver", "10987654321", null);
+		Contribuinte c1 = new Contribuinte("Jonh Doe", "27088427060", null);
+		Contribuinte c2 = new Contribuinte("Jonh Silver", "58244312050", null);
 
 		contribuinteRepository.saveAll(Arrays.asList(c1, c2));
 		SalarioBaseContribuicao s1 = new SalarioBaseContribuicao(YearMonth.of(2023, 1), c1,
