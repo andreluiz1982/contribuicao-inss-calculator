@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inss.calculo.model.Aliquota;
@@ -37,21 +37,21 @@ public class AliquotaController {
 		return aliquotaService.insertListAliquota(obj);
 	}
 
-	@PutMapping("{id}")
-	public Aliquota updateAliquota(@RequestParam(name = "id") Long id, @RequestBody Aliquota obj) {
+	@PutMapping("/{id}")
+	public Aliquota updateAliquota(@PathVariable(name = "id") Long id, @RequestBody Aliquota obj) {
 
 		return aliquotaService.updateAliquota(obj, id);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteAliquota(@RequestParam(name = "id") Long id) {
+	public ResponseEntity<?> deleteAliquota(@PathVariable(name = "id") Long id) {
 		aliquotaService.deleteAliquota(id);
 
 		return ResponseEntity.noContent().build();
 	}
 
 	@GetMapping("/{id}")
-	public Aliquota getAliquota(@RequestParam(name = "id") Long id) {
+	public Aliquota getAliquota(@PathVariable(name = "id") Long id) {
 		return aliquotaService.findById(id);
 	}
 
