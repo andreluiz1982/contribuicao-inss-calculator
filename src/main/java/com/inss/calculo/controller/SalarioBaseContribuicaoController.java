@@ -2,17 +2,12 @@ package com.inss.calculo.controller;
 
 import java.util.List;
 
+import com.inss.calculo.dto.ContribuicaoDTO;
+import com.inss.calculo.service.ContribuicaoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.inss.calculo.model.SalarioBaseContribuicao;
 import com.inss.calculo.service.SalarioContribuicaoService;
@@ -22,33 +17,40 @@ import com.inss.calculo.service.SalarioContribuicaoService;
 public class SalarioBaseContribuicaoController {
 
 	@Autowired
-	private SalarioContribuicaoService contribuicaoService;
-	
+	private SalarioContribuicaoService salarioContribuicaoService;
+	@Autowired
+	private ContribuicaoService contribuicaoService;
 	@PostMapping
 	public SalarioBaseContribuicao insertAliquota(@RequestBody @Valid SalarioBaseContribuicao obj  ) {
 		System.err.println(obj);
-		return contribuicaoService.insertSalarioBaseContribuicao(obj);
+		return salarioContribuicaoService.insertSalarioBaseContribuicao(obj);
 	}
-	@PutMapping("{id}")
-	public SalarioBaseContribuicao updateFaixaAliquota(@RequestParam(name = "id") Long id,
+	@PutMapping("/{id}")
+	public SalarioBaseContribuicao updateFaixaAliquota(@PathVariable(name = "id") Long id,
 											@RequestBody @Valid  SalarioBaseContribuicao obj  ) {
 		
-		return contribuicaoService.updateSalarioBaseContribuicao(obj, id);
+		return salarioContribuicaoService.updateSalarioBaseContribuicao(obj, id);
 	}
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteSalarioContribuicao(@RequestParam(name = "id") Long id ) {
-		contribuicaoService.deleteSalarioBaseContribuicao(id);
+	public ResponseEntity<?> deleteSalarioContribuicao(@PathVariable(name = "id") Long id ) {
+		salarioContribuicaoService.deleteSalarioBaseContribuicao(id);
 		 
 		 return ResponseEntity.noContent().build();
 	}
 	@GetMapping("/{id}")
-	public SalarioBaseContribuicao getSalarioBaseContribuicao(@RequestParam(name = "id") Long id ) {
-		return contribuicaoService.findById(id);
+	public SalarioBaseContribuicao getSalarioBaseContribuicao(@PathVariable(name = "id") Long id ) {
+		return salarioContribuicaoService.findById(id);
 	}
 	@GetMapping("/all")
 	public List<SalarioBaseContribuicao> getAllSalarioBaseContribuicao() {
-		return contribuicaoService.findAll();
+		return salarioContribuicaoService.findAll();
 	}
-	
-	
+
+	@GetMapping("/all/calculo/{id}")
+	public List<ContribuicaoDTO> calculateContribuicaoPerContribuinteo(@PathVariable(name = "id") Long id) {
+
+		List<SalarioBaseContribuicao> salarios = salarioContribuicaoService.calculaContribuicaoPerContribuinte(id);
+		return salarios.stream().map(s -> this.contribuicaoService.calculaContribuicao(s)).toList();
+	}
+
 }

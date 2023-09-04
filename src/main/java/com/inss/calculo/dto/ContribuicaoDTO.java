@@ -10,14 +10,14 @@ import lombok.Data;
 @Data
 public class ContribuicaoDTO {
 	
-	private YearMonth mes;
+	private YearMonth anoMes;
 	private List<FaixaContribuicaoDTO> faixaContribuicao;
 	
 	private BigDecimal totalDevidoMes;
 
-	public ContribuicaoDTO(YearMonth mes, List<FaixaContribuicaoDTO> faixaContribuicao, BigDecimal totalDevidoMes) {
+	public ContribuicaoDTO(YearMonth anoMes, List<FaixaContribuicaoDTO> faixaContribuicao, BigDecimal totalDevidoMes) {
 		super();
-		this.mes = mes;
+		this.anoMes = anoMes;
 		this.faixaContribuicao = faixaContribuicao;
 		this.totalDevidoMes = totalDevidoMes.setScale(3, RoundingMode.HALF_EVEN);
 	}
