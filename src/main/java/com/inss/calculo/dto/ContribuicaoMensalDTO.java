@@ -8,14 +8,14 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class ContribuicaoDTO {
+public class ContribuicaoMensalDTO {
 	
 	private YearMonth anoMes;
 	private List<FaixaContribuicaoDTO> faixaContribuicao;
 	
 	private BigDecimal totalDevidoMes;
 
-	public ContribuicaoDTO(YearMonth anoMes, List<FaixaContribuicaoDTO> faixaContribuicao, BigDecimal totalDevidoMes) {
+	public ContribuicaoMensalDTO(YearMonth anoMes, List<FaixaContribuicaoDTO> faixaContribuicao, BigDecimal totalDevidoMes) {
 		super();
 		this.anoMes = anoMes;
 		this.faixaContribuicao = faixaContribuicao;

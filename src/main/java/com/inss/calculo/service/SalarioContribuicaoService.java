@@ -2,8 +2,6 @@ package com.inss.calculo.service;
 
 import java.util.List;
 
-import com.inss.calculo.dto.ContribuicaoDTO;
-import com.inss.calculo.model.Contribuinte;
 import com.inss.calculo.service.exceptions.DuplicatedFieldException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

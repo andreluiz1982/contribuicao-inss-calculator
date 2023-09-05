@@ -2,7 +2,9 @@ package com.inss.calculo.controller;
 
 import java.util.List;
 
-import com.inss.calculo.dto.ContribuicaoDTO;
+import com.inss.calculo.dto.ContribuicaoMensalDTO;
+import com.inss.calculo.dto.ContribuicaoTotalDTO;
+import com.inss.calculo.model.Contribuinte;
 import com.inss.calculo.service.ContribuicaoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,10 +49,17 @@ public class SalarioBaseContribuicaoController {
 	}
 
 	@GetMapping("/all/calculo/{id}")
-	public List<ContribuicaoDTO> calculateContribuicaoPerContribuinteo(@PathVariable(name = "id") Long id) {
+	public ContribuicaoTotalDTO calculateContribuicaoPerContribuinte(@PathVariable(name = "id") Long contribuinteId) {
 
-		List<SalarioBaseContribuicao> salarios = salarioContribuicaoService.calculaContribuicaoPerContribuinte(id);
-		return salarios.stream().map(s -> this.contribuicaoService.calculaContribuicao(s)).toList();
+		List<SalarioBaseContribuicao> salarios = salarioContribuicaoService.calculaContribuicaoPerContribuinte(contribuinteId);
+		List<ContribuicaoMensalDTO> dtos = salarios.stream().map(s -> this.contribuicaoService.calculaContribuicao(s)).toList();
+
+		if(!salarios.isEmpty()){
+			return new ContribuicaoTotalDTO(dtos, salarios.get(0).getContribuinte());
+		} else {
+			return new ContribuicaoTotalDTO(dtos, new Contribuinte(contribuinteId));
+
+		}
 	}
 
 }

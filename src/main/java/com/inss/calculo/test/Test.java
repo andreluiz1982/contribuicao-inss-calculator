@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.inss.calculo.dto.ContribuicaoDTO;
+import com.inss.calculo.dto.ContribuicaoMensalDTO;
 import com.inss.calculo.model.Aliquota;
 import com.inss.calculo.model.ComponenteIncidencia;
 import com.inss.calculo.model.Contribuinte;
@@ -84,8 +84,8 @@ public class Test implements CommandLineRunner {
 
 		salarioBaseContribuicaoRepository.saveAll(Arrays.asList(s1, s2, s3, s4, s5, s6));
 
-		ContribuicaoDTO dto = contribuicaoService.calculaContribuicao(s1);
-		System.err.println(dto);
+		ContribuicaoMensalDTO dto = contribuicaoService.calculaContribuicao(s1);
+//		System.err.println(dto);
 	}
 
 }

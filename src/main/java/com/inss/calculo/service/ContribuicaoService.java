@@ -10,7 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.inss.calculo.dto.ContribuicaoDTO;
+import com.inss.calculo.dto.ContribuicaoMensalDTO;
 import com.inss.calculo.dto.FaixaContribuicaoDTO;
 import com.inss.calculo.model.Aliquota;
 import com.inss.calculo.model.FaixaAliquota;
@@ -25,7 +25,7 @@ public class ContribuicaoService {
 	@Autowired
 	private AliquotaRepository aliquotaRepository;
 	
-	public ContribuicaoDTO calculaContribuicao(SalarioBaseContribuicao salario) {
+	public ContribuicaoMensalDTO calculaContribuicao(SalarioBaseContribuicao salario) {
 		
 		List<Aliquota> aliquotas = aliquotaRepository.findAll();
 		Aliquota al = findAliquotaIncidente(aliquotas, salario);
@@ -38,7 +38,7 @@ public class ContribuicaoService {
 		
 	}
 
-	private ContribuicaoDTO calculaValorPorFaixa(SalarioBaseContribuicao salario, Aliquota al, List<FaixaAliquota> faixas) {
+	private ContribuicaoMensalDTO calculaValorPorFaixa(SalarioBaseContribuicao salario, Aliquota al, List<FaixaAliquota> faixas) {
 		Collections.sort(faixas);
 		BigDecimal sal = salario.getComponentesIncidencia().stream()
 				.map(b -> b.getValorComponente())
@@ -73,7 +73,7 @@ public class ContribuicaoService {
 					new FaixaContribuicaoDTO(("Faixa " + count + ": "), contribuicao.setScale(3, RoundingMode.HALF_EVEN)));
 		}
 		
-		return new ContribuicaoDTO(salario.getAnoMes(), faixasDtos, contribuicao);
+		return new ContribuicaoMensalDTO(salario.getAnoMes(), faixasDtos, contribuicao);
 	}
 
 	private Aliquota findAliquotaIncidente(List<Aliquota> aliquotas, SalarioBaseContribuicao salario) {
@@ -94,7 +94,8 @@ public class ContribuicaoService {
 				primPosterior = a;
 			}
 		}
-		System.err.println(ultAnterior);
+		//System.err.println(ultAnterior);
+		//System.err.println(ultAnterior);
 
 		return ultAnterior;
 	}
