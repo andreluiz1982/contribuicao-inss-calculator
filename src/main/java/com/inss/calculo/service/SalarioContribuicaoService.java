@@ -47,9 +47,8 @@ public class SalarioContribuicaoService {
 
 	}
 
-	public List<SalarioBaseContribuicao> calculaContribuicaoPerContribuinte(Long id) {
+	public List<SalarioBaseContribuicao> getContribuicoesPerContribuinte(Long id) {
 		List<SalarioBaseContribuicao> list = contribuicaoRepository.findByContribuinteId(id);
-
 		return list;
 	}
 }

@@ -28,15 +28,16 @@ public class SalarioBaseContribuicao {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@NotNull(message = "O ano-mês é obrigatório no formato yyyy-dd. Ex, 2015-08")
-	@Column(unique = true)
 	private YearMonth anoMes;
+
 	@NotNull(message = "Selecione o contribuinte deve ser indicado")
 	@JsonIgnoreProperties({"salariosContribuicao"})
 	@ManyToOne (optional = false)
-	private Contribuinte contribuinte;
+		private Contribuinte contribuinte;
 	
 	@OneToMany(cascade = CascadeType.ALL )
 	@NotNull(message = "Deve haver pelo menos um componente")
+	@Column(name = "_componentes_incidencia")
 	private List<ComponenteIncidencia> componentesIncidencia = new ArrayList<>();
 
 	public SalarioBaseContribuicao(YearMonth anoMes, Contribuinte contribuinte,
@@ -47,5 +48,11 @@ public class SalarioBaseContribuicao {
 		this.componentesIncidencia = componentesIncidencia;
 	}
 
-
+	@Override
+	public String toString() {
+		return "SalarioBaseContribuicao{" +
+				"anoMes=" + anoMes +
+				", componentesIncidencia=" + componentesIncidencia +
+				'}';
+	}
 }

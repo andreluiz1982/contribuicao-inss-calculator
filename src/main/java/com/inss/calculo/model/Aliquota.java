@@ -16,6 +16,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Data
@@ -41,6 +43,12 @@ public class Aliquota {
 		this.anoMes = anoMes;
 		this.faixasAliquotas = faixasAliquotas;
 	}
-	
 
+	@Override
+	public String toString() {
+		return "Aliquota{" +
+				"anoMes=" + anoMes +
+				", faixasAliquotas=" + faixasAliquotas +
+				'}';
+	}
 }

@@ -32,5 +32,11 @@ public class ComponenteIncidencia {
 		this.valorComponente = valorComponente;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "ComponenteIncidencia{" +
+				"descricao='" + descricao + '\'' +
+				", valorComponente=" + valorComponente +
+				'}';
+	}
 }

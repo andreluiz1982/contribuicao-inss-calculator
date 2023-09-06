@@ -50,8 +50,12 @@ public class Contribuinte {
 		super();
 		this.id = id;
 	}
-	
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "Contribuinte{" +
+				"nomeCompleto='" + nomeCompleto + '\'' +
+				", cpf='" + cpf + '\'' +
+				'}';
+	}
 }

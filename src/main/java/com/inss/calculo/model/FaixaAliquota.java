@@ -51,10 +51,13 @@ public class FaixaAliquota implements Comparable<FaixaAliquota>{
 	}
 
 
-
-
-	
-	
-	
-
+	@Override
+	public String toString() {
+		return "FaixaAliquota{" +
+				"id=" + id +
+				", valorMinimo=" + valorMinimo +
+				", valorMaximo=" + valorMaximo +
+				", aliquota=" + aliquota +
+				'}';
+	}
 }

@@ -24,7 +24,7 @@ public class SalarioBaseContribuicaoController {
 	private ContribuicaoService contribuicaoService;
 	@PostMapping
 	public SalarioBaseContribuicao insertAliquota(@RequestBody @Valid SalarioBaseContribuicao obj  ) {
-		System.err.println(obj);
+//		System.err.println(obj);
 		return salarioContribuicaoService.insertSalarioBaseContribuicao(obj);
 	}
 	@PutMapping("/{id}")
@@ -51,9 +51,8 @@ public class SalarioBaseContribuicaoController {
 	@GetMapping("/all/calculo/{id}")
 	public ContribuicaoTotalDTO calculateContribuicaoPerContribuinte(@PathVariable(name = "id") Long contribuinteId) {
 
-		List<SalarioBaseContribuicao> salarios = salarioContribuicaoService.calculaContribuicaoPerContribuinte(contribuinteId);
+		List<SalarioBaseContribuicao> salarios = salarioContribuicaoService.getContribuicoesPerContribuinte(contribuinteId);
 		List<ContribuicaoMensalDTO> dtos = salarios.stream().map(s -> this.contribuicaoService.calculaContribuicao(s)).toList();
-
 		if(!salarios.isEmpty()){
 			return new ContribuicaoTotalDTO(dtos, salarios.get(0).getContribuinte());
 		} else {
