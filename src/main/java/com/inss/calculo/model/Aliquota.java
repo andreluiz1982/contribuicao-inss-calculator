@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,7 +33,7 @@ public class Aliquota {
 	
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@NotNull
+	@NotEmpty(message = "Deve conter pelo menos uma faixa de alíquota válida")
 	private List<FaixaAliquota> faixasAliquotas;
 
 	public Aliquota(YearMonth anoMes, List<FaixaAliquota> faixasAliquotas) {

@@ -1,8 +1,9 @@
 package com.inss.calculo.service.exceptions;
 
-public class DuplicatedFieldException extends RuntimeException {
-    public DuplicatedFieldException() {
-    }
+import org.springframework.dao.DataIntegrityViolationException;
+
+public class DuplicatedFieldException extends DataIntegrityViolationException
+{
 
     public DuplicatedFieldException(String message) {
         super(message);

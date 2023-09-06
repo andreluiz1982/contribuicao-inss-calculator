@@ -2,8 +2,10 @@ package com.inss.calculo.service;
 
 import java.util.List;
 
+import com.inss.calculo.service.exceptions.DuplicatedFieldException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.inss.calculo.model.Aliquota;
@@ -17,12 +19,25 @@ public class AliquotaService {
 	
 	public Aliquota insertAliquota(Aliquota aliquota) {
 		
-	 return	aliquotaRepository.save(aliquota);
+		try {
+			return	aliquotaRepository.save(aliquota);
+		} catch (DataIntegrityViolationException e) {
+			throw new DuplicatedFieldException(String.format("Aliquota para o mês %s já existe, " +
+							"faça uma atualização ou exclua.",
+					aliquota.getAnoMes().toString()));
+		}
 	}
 	
 	public List<Aliquota> insertListAliquota(List<Aliquota> aliquota) {
 		
-		 return	aliquotaRepository.saveAll(aliquota);
+		try {
+			return	aliquotaRepository.saveAll(aliquota);
+
+		} catch (DataIntegrityViolationException e) {
+			throw new DuplicatedFieldException(String.format("Aliquota para o mês %s já existe, " +
+							"faça uma atualização ou exclua.",
+					e.getMessage()));
+		}
 		}
 	
 	public void deleteAliquota(Long id) {

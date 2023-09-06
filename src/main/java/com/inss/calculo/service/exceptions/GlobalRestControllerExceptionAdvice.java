@@ -1,19 +1,22 @@
 package com.inss.calculo.service.exceptions;
 
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.method.annotation.ExceptionHandlerMethodResolver;
-import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.handler.AbstractHandlerMethodExceptionResolver;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestControllerAdvice
 public class GlobalRestControllerExceptionAdvice extends ResponseEntityExceptionHandler {
@@ -42,6 +45,28 @@ public class GlobalRestControllerExceptionAdvice extends ResponseEntityException
 
 
     @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        List<String> errors = new ArrayList<>();
+        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+            errors.add(error.getField() + ": " + error.getDefaultMessage());
+        }
+        for (ObjectError error : ex.getBindingResult().getGlobalErrors()) {
+            errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
+        }
+
+
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.BAD_REQUEST.value(),
+                OffsetDateTime.now(),
+                "Erro de validação",
+                errors.toString());
+
+        return handleExceptionInternal(ex, message, null, HttpStatus.BAD_REQUEST, request );
+    }
+
+
+
+    @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex,
                                                              Object body,
                                                              HttpHeaders headers,
@@ -50,4 +75,6 @@ public class GlobalRestControllerExceptionAdvice extends ResponseEntityException
         body = (ErrorMessage) body;
         return super.handleExceptionInternal(ex, body, headers, statusCode, request);
     }
+
+
 }
