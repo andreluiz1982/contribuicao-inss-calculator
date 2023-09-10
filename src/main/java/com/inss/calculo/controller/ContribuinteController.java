@@ -31,7 +31,6 @@ public class ContribuinteController {
 	@PutMapping("/{id}")
 	public Contribuinte updateContribuinte(@PathVariable(name = "id") Long id,
 											@RequestBody Contribuinte contribuinte  ) {
-		
 		return contribuinteService.updateContribuinte(contribuinte, id);
 	}
 	@DeleteMapping("/{id}")

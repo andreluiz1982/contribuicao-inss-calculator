@@ -2,7 +2,8 @@ package com.inss.calculo.model;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.validator.constraints.br.CPF;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,7 +14,6 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 @Data
@@ -29,8 +29,8 @@ public class Contribuinte {
 	@CPF(message = "CPF deve ser válido")
 	private String cpf;
 
-	@JsonIgnoreProperties({"contribuinte"})
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "contribuinte" )
+	//@JsonIgnoreProperties({"contribuinteId"})
+	@OneToMany(cascade = {CascadeType.REMOVE} ,mappedBy = "contribuinte" )
 	private List<SalarioBaseContribuicao> salariosContribuicao;
 
 	public Contribuinte(String nomeCompleto, String cpf, List<SalarioBaseContribuicao> salariosContribuicao) {

@@ -4,9 +4,8 @@ import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,6 +18,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -31,11 +31,11 @@ public class SalarioBaseContribuicao {
 	private YearMonth anoMes;
 
 	@NotNull(message = "Selecione o contribuinte deve ser indicado")
-	@JsonIgnoreProperties({"salariosContribuicao"})
-	@ManyToOne (optional = false)
-		private Contribuinte contribuinte;
-	
-	@OneToMany(cascade = CascadeType.ALL )
+	@JsonIgnoreProperties({ "salariosContribuicao" })
+	@ManyToOne(optional = false)
+	private Contribuinte contribuinte;
+
+	@OneToMany(cascade = CascadeType.ALL)
 	@NotNull(message = "Deve haver pelo menos um componente")
 	@Column(name = "_componentes_incidencia")
 	private List<ComponenteIncidencia> componentesIncidencia = new ArrayList<>();
@@ -50,9 +50,7 @@ public class SalarioBaseContribuicao {
 
 	@Override
 	public String toString() {
-		return "SalarioBaseContribuicao{" +
-				"anoMes=" + anoMes +
-				", componentesIncidencia=" + componentesIncidencia +
-				'}';
+		return "SalarioBaseContribuicao{" + "anoMes=" + anoMes + ", componentesIncidencia=" + componentesIncidencia
+				+ '}';
 	}
 }

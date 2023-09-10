@@ -6,6 +6,7 @@ import java.time.YearMonth;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -35,9 +36,14 @@ public class Test implements CommandLineRunner {
 	@Autowired
 	private SalarioBaseContribuicaoRepository salarioBaseContribuicaoRepository;
 
+	@Value("${db.test}")
+	private boolean test;
+
 	@Override
 	public void run(String... args) throws Exception {
 
+		if(test) {
+			
 		Aliquota al1 = new Aliquota(YearMonth.of(2023, Month.MAY), Arrays.asList(
 				new FaixaAliquota(BigDecimal.ZERO, new BigDecimal("1320.00"), new BigDecimal("7.5")),
 				new FaixaAliquota(new BigDecimal("1320.01"), new BigDecimal("2571.29"), new BigDecimal("9.0")),
@@ -86,6 +92,7 @@ public class Test implements CommandLineRunner {
 
 		ContribuicaoMensalDTO dto = contribuicaoService.calculaContribuicao(s1);
 //		System.err.println(dto);
+		}
 	}
 
 }

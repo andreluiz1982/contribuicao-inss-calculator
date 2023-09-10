@@ -22,27 +22,32 @@ public class SalarioBaseContribuicaoController {
 	private SalarioContribuicaoService salarioContribuicaoService;
 	@Autowired
 	private ContribuicaoService contribuicaoService;
+
 	@PostMapping
-	public SalarioBaseContribuicao insertAliquota(@RequestBody @Valid SalarioBaseContribuicao obj  ) {
-//		System.err.println(obj);
+	public SalarioBaseContribuicao insertAliquota(@RequestBody @Valid SalarioBaseContribuicao obj) {
+		System.err.println(obj);
 		return salarioContribuicaoService.insertSalarioBaseContribuicao(obj);
 	}
+
 	@PutMapping("/{id}")
 	public SalarioBaseContribuicao updateFaixaAliquota(@PathVariable(name = "id") Long id,
-											@RequestBody @Valid  SalarioBaseContribuicao obj  ) {
-		
+			@RequestBody @Valid SalarioBaseContribuicao obj) {
+
 		return salarioContribuicaoService.updateSalarioBaseContribuicao(obj, id);
 	}
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteSalarioContribuicao(@PathVariable(name = "id") Long id ) {
+	public ResponseEntity<?> deleteSalarioContribuicao(@PathVariable(name = "id") Long id) {
 		salarioContribuicaoService.deleteSalarioBaseContribuicao(id);
-		 
-		 return ResponseEntity.noContent().build();
+
+		return ResponseEntity.noContent().build();
 	}
+
 	@GetMapping("/{id}")
-	public SalarioBaseContribuicao getSalarioBaseContribuicao(@PathVariable(name = "id") Long id ) {
+	public SalarioBaseContribuicao getSalarioBaseContribuicao(@PathVariable(name = "id") Long id) {
 		return salarioContribuicaoService.findById(id);
 	}
+
 	@GetMapping("/all")
 	public List<SalarioBaseContribuicao> getAllSalarioBaseContribuicao() {
 		return salarioContribuicaoService.findAll();
@@ -51,9 +56,11 @@ public class SalarioBaseContribuicaoController {
 	@GetMapping("/all/calculo/{id}")
 	public ContribuicaoTotalDTO calculateContribuicaoPerContribuinte(@PathVariable(name = "id") Long contribuinteId) {
 
-		List<SalarioBaseContribuicao> salarios = salarioContribuicaoService.getContribuicoesPerContribuinte(contribuinteId);
-		List<ContribuicaoMensalDTO> dtos = salarios.stream().map(s -> this.contribuicaoService.calculaContribuicao(s)).toList();
-		if(!salarios.isEmpty()){
+		List<SalarioBaseContribuicao> salarios = salarioContribuicaoService
+				.getContribuicoesPerContribuinte(contribuinteId);
+		List<ContribuicaoMensalDTO> dtos = salarios.stream().map(s -> this.contribuicaoService.calculaContribuicao(s))
+				.toList();
+		if (!salarios.isEmpty()) {
 			return new ContribuicaoTotalDTO(dtos, salarios.get(0).getContribuinte());
 		} else {
 			return new ContribuicaoTotalDTO(dtos, new Contribuinte(contribuinteId));
