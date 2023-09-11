@@ -72,7 +72,7 @@ public class GlobalRestControllerExceptionAdvice extends ResponseEntityException
                                                              HttpHeaders headers,
                                                              HttpStatusCode statusCode,
                                                              WebRequest request) {
-        body = (ErrorMessage) body;
+        body =  body instanceof ErrorMessage ? body : body.toString();
         return super.handleExceptionInternal(ex, body, headers, statusCode, request);
     }
 

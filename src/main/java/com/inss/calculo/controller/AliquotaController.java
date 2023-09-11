@@ -27,7 +27,7 @@ public class AliquotaController {
 
 	@PostMapping
 	public Aliquota insertAliquota(@Valid @RequestBody Aliquota obj) {
-//		System.err.println(obj);
+		System.err.println(obj);
 		return aliquotaService.insertAliquota(obj);
 	}
 

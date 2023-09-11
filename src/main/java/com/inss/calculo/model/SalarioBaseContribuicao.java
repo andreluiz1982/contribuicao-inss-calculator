@@ -1,23 +1,16 @@
 package com.inss.calculo.model;
 
-import java.time.YearMonth;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import com.inss.calculo.configuration.YearMonthIntegerAttributeConverter;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.YearMonth;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -28,6 +21,9 @@ public class SalarioBaseContribuicao {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@NotNull(message = "O ano-mês é obrigatório no formato yyyy-dd. Ex, 2015-08")
+	@Convert(
+			converter = YearMonthIntegerAttributeConverter.class
+	)
 	private YearMonth anoMes;
 
 	@NotNull(message = "Selecione o contribuinte deve ser indicado")

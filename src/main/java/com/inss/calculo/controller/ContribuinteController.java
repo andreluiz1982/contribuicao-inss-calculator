@@ -25,7 +25,6 @@ public class ContribuinteController {
 	
 	@PostMapping
 	public Contribuinte insertContribuinte(@RequestBody Contribuinte contribuinte  ) {
-		
 		return contribuinteService.insertContribuinte(contribuinte);
 	}
 	@PutMapping("/{id}")
