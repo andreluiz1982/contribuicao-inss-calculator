@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -70,6 +71,7 @@ public class ContribuicaoService {
 				contribuicao = contribuicao.add((sal.subtract(min)).multiply(aliq));
 			}
 
+
 			faixasDtos.add(new FaixaContribuicaoDTO(("Faixa " + count + ": "),
 					contribuicao.setScale(3, RoundingMode.HALF_EVEN)));
 		}
@@ -82,23 +84,19 @@ public class ContribuicaoService {
 		YearMonth mesSalario = YearMonth.from(salario.getAnoMes());
 
 		Aliquota ultAnterior = new Aliquota();
-		Aliquota primPosterior = new Aliquota();
-
 		for (Aliquota a : aliquotas) {
 
-			if (a.getAnoMes().isBefore(mesSalario)
-					&& (ultAnterior.getAnoMes() == null || a.getAnoMes().isAfter(ultAnterior.getAnoMes()))) {
+			if (a.getAnoMes().isBefore(mesSalario) || a.getAnoMes().equals(mesSalario)
+					&& (ultAnterior.getAnoMes() == null ||
+					a.getAnoMes().isAfter(ultAnterior.getAnoMes()))
+			) {
 				ultAnterior = a;
 			}
-			if (a.getAnoMes().isAfter(mesSalario)
-					&& (primPosterior.getAnoMes() == null || a.getAnoMes().isBefore(primPosterior.getAnoMes()))) {
-				primPosterior = a;
-			}
-		}
-		// System.err.println(ultAnterior);
-		// System.err.println(ultAnterior);
 
-		return ultAnterior;
+		}
+
+			return ultAnterior;
+
 	}
 
 }

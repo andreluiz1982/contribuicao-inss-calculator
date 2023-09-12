@@ -42,7 +42,7 @@ public class SalarioBaseContribuicaoController {
 
 	@PostMapping
 	public SalarioBaseContribuicao insertAliquota(@RequestBody @Valid SalarioBaseContribuicao obj) {
-		System.err.println(obj);
+//		System.err.println(obj);
 		return salarioContribuicaoService.insertSalarioBaseContribuicao(obj);
 	}
 
