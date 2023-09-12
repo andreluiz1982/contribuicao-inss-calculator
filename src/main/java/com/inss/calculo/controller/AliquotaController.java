@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inss.calculo.dto.AliquotaDTO;
+import com.inss.calculo.dto.assembler.AliquotaAssembler;
 import com.inss.calculo.model.Aliquota;
 import com.inss.calculo.service.AliquotaService;
 
@@ -25,6 +27,9 @@ public class AliquotaController {
 	@Autowired
 	private AliquotaService aliquotaService;
 
+	@Autowired
+	private AliquotaAssembler aliquotaAssembler;
+	
 	@PostMapping
 	public Aliquota insertAliquota(@Valid @RequestBody Aliquota obj) {
 		System.err.println(obj);
@@ -51,13 +56,14 @@ public class AliquotaController {
 	}
 
 	@GetMapping("/{id}")
-	public Aliquota getAliquota(@PathVariable(name = "id") Long id) {
-		return aliquotaService.findById(id);
+	public AliquotaDTO getAliquota(@PathVariable(name = "id") Long id) {
+		return aliquotaAssembler.makeDTO(aliquotaService.findById(id));
 	}
 
 	@GetMapping("/all")
-	public List<Aliquota> getAliquota() {
-		return aliquotaService.findAll();
+	public List<AliquotaDTO> getAliquotas() {
+		List<Aliquota> aliquotas = aliquotaService.findAll();
+		return aliquotas.stream().map(a -> aliquotaAssembler.makeDTO(a)).toList();
 	}
 
 }

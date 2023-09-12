@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inss.calculo.dto.ContribuinteDTO;
+import com.inss.calculo.dto.assembler.ContribuinteAssembler;
 import com.inss.calculo.model.Contribuinte;
 import com.inss.calculo.service.ContribuinteService;
 
@@ -22,6 +24,9 @@ public class ContribuinteController {
 
 	@Autowired
 	private ContribuinteService contribuinteService;
+	
+	@Autowired
+	private ContribuinteAssembler contribuinteAssembler;
 	
 	@PostMapping
 	public Contribuinte insertContribuinte(@RequestBody Contribuinte contribuinte  ) {
@@ -39,12 +44,12 @@ public class ContribuinteController {
 		 return ResponseEntity.noContent().build();
 	}
 	@GetMapping("/{id}")
-	public Contribuinte getContribuinte(@PathVariable(name = "id") Long id ) {
-		return contribuinteService.findById(id);
+	public ContribuinteDTO getContribuinte(@PathVariable(name = "id") Long id ) {
+		return contribuinteAssembler.makeDTO(contribuinteService.findById(id));
 	}
 	@GetMapping("/all")
-	public List<Contribuinte> getContribuinte() {
-		return contribuinteService.findAll();
+	public List<ContribuinteDTO> getContribuinte() {
+		return contribuinteAssembler.makeDTO(contribuinteService.findAll());
 	}
 	
 	

@@ -1,16 +1,24 @@
 package com.inss.calculo.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.time.YearMonth;
+import java.util.List;
+
 import com.inss.calculo.configuration.YearMonthIntegerAttributeConverter;
-import jakarta.persistence.*;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.YearMonth;
-import java.util.List;
 
 @Entity
 @Data

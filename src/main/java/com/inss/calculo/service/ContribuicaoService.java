@@ -20,84 +20,85 @@ import com.inss.calculo.repository.AliquotaRepository;
 @Component
 public class ContribuicaoService {
 
-
-
 	@Autowired
 	private AliquotaRepository aliquotaRepository;
-	
+
 	public ContribuicaoMensalDTO calculaContribuicao(SalarioBaseContribuicao salario) {
-		
+
 		List<Aliquota> aliquotas = aliquotaRepository.findAll();
 		Aliquota al = findAliquotaIncidente(aliquotas, salario);
-		
+
 //		
-		List<FaixaAliquota> faixas = al.getFaixasAliquotas();
-		
-		return calculaValorPorFaixa(salario, al, faixas);
-		
-		
+		List<FaixaAliquota> faixas;
+		try {
+			faixas = al.getFaixasAliquotas();
+			return calculaValorPorFaixa(salario, al, faixas);
+		} catch (Exception e) {
+			throw new RuntimeException(String.format(
+					"Não existe faixa de alíquota anterior " + 
+							"ao salário de contribuição do ano-mês %s. Adicione a alíquota incidente.",
+					salario.getAnoMes().toString()));
+		}
+
 	}
 
-	private ContribuicaoMensalDTO calculaValorPorFaixa(SalarioBaseContribuicao salario, Aliquota al, List<FaixaAliquota> faixas) {
+	private ContribuicaoMensalDTO calculaValorPorFaixa(SalarioBaseContribuicao salario, Aliquota al,
+			List<FaixaAliquota> faixas) {
+
 		Collections.sort(faixas);
-		BigDecimal sal = salario.getComponentesIncidencia().stream()
-				.map(b -> b.getValorComponente())
+
+		BigDecimal sal = salario.getComponentesIncidencia().stream().map(b -> b.getValorComponente())
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
-		
-		
-		
+
 		BigDecimal contribuicao = BigDecimal.ZERO;
-		
+
 		List<FaixaContribuicaoDTO> faixasDtos = new ArrayList<>();
 
 		int count = 0;
-		
-		for(FaixaAliquota fa : al.getFaixasAliquotas()) {
-			count ++;
+
+		for (FaixaAliquota fa : al.getFaixasAliquotas()) {
+			count++;
 			BigDecimal max = fa.getValorMaximo();
 			BigDecimal min = fa.getValorMinimo();
 			BigDecimal aliq = fa.getAliquota().divide(new BigDecimal("100.0"), 12, RoundingMode.HALF_EVEN);
-			
-			if(sal.compareTo(min) > 0 && sal.compareTo(max) > 0 ) {
-				contribuicao = contribuicao.add(
-						(max.subtract(min))
-						.multiply(aliq));
 
-			}  if(sal.compareTo(max) < 0 && sal.compareTo(min) > 0) {
-				contribuicao = contribuicao.add(
-						(sal.subtract(min)).multiply(aliq)
-								);
+			if (sal.compareTo(min) > 0 && sal.compareTo(max) > 0) {
+				contribuicao = contribuicao.add((max.subtract(min)).multiply(aliq));
+
+			}
+			if (sal.compareTo(max) < 0 && sal.compareTo(min) > 0) {
+				contribuicao = contribuicao.add((sal.subtract(min)).multiply(aliq));
 			}
 
-			faixasDtos.add(
-					new FaixaContribuicaoDTO(("Faixa " + count + ": "), contribuicao.setScale(3, RoundingMode.HALF_EVEN)));
+			faixasDtos.add(new FaixaContribuicaoDTO(("Faixa " + count + ": "),
+					contribuicao.setScale(3, RoundingMode.HALF_EVEN)));
 		}
-		
+
 		return new ContribuicaoMensalDTO(salario.getAnoMes(), faixasDtos, contribuicao);
 	}
 
-	private Aliquota findAliquotaIncidente(List<Aliquota> aliquotas, SalarioBaseContribuicao salario) {
+	private Aliquota findAliquotaIncidente(List<Aliquota> aliquotas, SalarioBaseContribuicao salario)
+			throws NullPointerException {
 		YearMonth mesSalario = YearMonth.from(salario.getAnoMes());
-		
+
 		Aliquota ultAnterior = new Aliquota();
 		Aliquota primPosterior = new Aliquota();
 
-		
-		for(Aliquota a : aliquotas) {
+		for (Aliquota a : aliquotas) {
 
-			if(a.getAnoMes().isBefore(mesSalario) 
+			if (a.getAnoMes().isBefore(mesSalario)
 					&& (ultAnterior.getAnoMes() == null || a.getAnoMes().isAfter(ultAnterior.getAnoMes()))) {
 				ultAnterior = a;
 			}
-			if(a.getAnoMes().isAfter(mesSalario) 
+			if (a.getAnoMes().isAfter(mesSalario)
 					&& (primPosterior.getAnoMes() == null || a.getAnoMes().isBefore(primPosterior.getAnoMes()))) {
 				primPosterior = a;
 			}
 		}
-		//System.err.println(ultAnterior);
-		//System.err.println(ultAnterior);
+		// System.err.println(ultAnterior);
+		// System.err.println(ultAnterior);
 
 		return ultAnterior;
 	}
-	
+
 }

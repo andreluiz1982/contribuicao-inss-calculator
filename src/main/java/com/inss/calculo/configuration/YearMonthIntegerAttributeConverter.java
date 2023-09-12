@@ -20,9 +20,11 @@ public Integer convertToDatabaseColumn(
 public YearMonth convertToEntityAttribute(
         Integer dbData) {
         if (dbData != null) {
+      
         int year = dbData / 100;
         int month = dbData % 100;
-        return YearMonth.of(year, month);
+        YearMonth anoMes = YearMonth.of(year, month);
+        return anoMes;
         }
         return null;
         }

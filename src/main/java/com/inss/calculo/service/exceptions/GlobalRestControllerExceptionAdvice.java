@@ -1,7 +1,9 @@
 package com.inss.calculo.service.exceptions;
 
-import jakarta.validation.ConstraintViolationException;
-import org.springframework.dao.DataIntegrityViolationException;
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -14,9 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.validation.ConstraintViolationException;
 
 @RestControllerAdvice
 public class GlobalRestControllerExceptionAdvice extends ResponseEntityExceptionHandler {
@@ -42,7 +42,16 @@ public class GlobalRestControllerExceptionAdvice extends ResponseEntityException
         return handleExceptionInternal(ex, message, null, HttpStatus.CONFLICT, request );
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Object> RuntimeException(RuntimeException ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.FAILED_DEPENDENCY.value(),
+                OffsetDateTime.now(),
+                ex.getMessage(),
+                request.getDescription(false));
 
+        return handleExceptionInternal(ex, message, null, HttpStatus.CONFLICT, request );
+    }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
