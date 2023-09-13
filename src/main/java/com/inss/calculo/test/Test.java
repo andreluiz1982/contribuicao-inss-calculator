@@ -5,17 +5,13 @@ import java.time.Month;
 import java.time.YearMonth;
 import java.util.Arrays;
 
+import com.inss.calculo.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.inss.calculo.dto.ContribuicaoMensalDTO;
-import com.inss.calculo.model.Aliquota;
-import com.inss.calculo.model.ComponenteIncidencia;
-import com.inss.calculo.model.Contribuinte;
-import com.inss.calculo.model.FaixaAliquota;
-import com.inss.calculo.model.SalarioBaseContribuicao;
 import com.inss.calculo.repository.AliquotaRepository;
 import com.inss.calculo.repository.ContribuinteRepository;
 import com.inss.calculo.repository.SalarioBaseContribuicaoRepository;
@@ -64,8 +60,8 @@ public class Test implements CommandLineRunner {
 
 		aliquotaRepository.saveAll(Arrays.asList(al1, al2, al3));
 
-		Contribuinte c1 = new Contribuinte("Jonh Doe", "27088427060", null);
-		Contribuinte c2 = new Contribuinte("Jonh Silver", "58244312050", null);
+		Contribuinte c1 = new Contribuinte("Jonh Doe", "27088427060", RegimePrevidenciario.RPPS,null);
+		Contribuinte c2 = new Contribuinte("Jonh Silver", "58244312050", RegimePrevidenciario.RGPS ,null);
 
 		contribuinteRepository.saveAll(Arrays.asList(c1, c2));
 		SalarioBaseContribuicao s1 = new SalarioBaseContribuicao(YearMonth.of(2023, 1), c1,
@@ -75,7 +71,7 @@ public class Test implements CommandLineRunner {
 		SalarioBaseContribuicao s3 = new SalarioBaseContribuicao(YearMonth.of(2023, 3), c1,
 				Arrays.asList(new ComponenteIncidencia("teste2", new BigDecimal("1902.0"))));
 		;
-		SalarioBaseContribuicao s4 = new SalarioBaseContribuicao(YearMonth.of(2023, 4), c1,
+		SalarioBaseContribuicao s4 = new SalarioBaseContribuicao(YearMonth.of(2018, 4), c1,
 				Arrays.asList(new ComponenteIncidencia("teste3", new BigDecimal("1903.0"))));
 		SalarioBaseContribuicao s5 = new SalarioBaseContribuicao(YearMonth.of(2023, 5), c1,
 				Arrays.asList(

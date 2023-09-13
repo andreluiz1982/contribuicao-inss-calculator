@@ -2,14 +2,9 @@ package com.inss.calculo.model;
 
 import java.util.List;
 
+import jakarta.persistence.*;
 import org.hibernate.validator.constraints.br.CPF;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,15 +23,17 @@ public class Contribuinte {
 	@NotBlank(message = "CPF não pode estar em branco")
 	@CPF(message = "CPF deve ser válido")
 	private String cpf;
+	@Enumerated(EnumType.STRING)
+	private RegimePrevidenciario regime;
 
 	//@JsonIgnoreProperties({"contribuinteId"})
 	@OneToMany(cascade = {CascadeType.REMOVE} ,mappedBy = "contribuinte" )
 	private List<SalarioBaseContribuicao> salariosContribuicao;
 
-	public Contribuinte(String nomeCompleto, String cpf, List<SalarioBaseContribuicao> salariosContribuicao) {
-		super();
+	public Contribuinte(String nomeCompleto, String cpf, RegimePrevidenciario regime, List<SalarioBaseContribuicao> salariosContribuicao) {
 		this.nomeCompleto = nomeCompleto;
 		this.cpf = cpf;
+		this.regime = regime;
 		this.salariosContribuicao = salariosContribuicao;
 	}
 
